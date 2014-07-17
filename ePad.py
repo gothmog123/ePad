@@ -86,10 +86,10 @@ class Interface(object):
         self.fileLabel.text = ""
         self.fileLabel.show()
 
-        self.fileSelector = Fileselector(self.mainWindow, is_save=False, expandable=False, folder_only=False,
+        self.fileSelector = Fileselector(self.mainWindow, is_save=False, expandable=False, folder_only=False, buttons_ok_cancel=False,
                       path=os.getenv("HOME"), size_hint_weight=EXPAND_BOTH,
                       size_hint_align=FILL_BOTH)
-        self.fileSelector.callback_done_add(self.fileSelected)
+        self.fileSelector.callback_selected_add(self.fileSelected)
         #self.fileSelector.callback_selected_add(fs_cb_selected, win)
         #self.fileSelector.callback_directory_open_add(fs_cb_directory_open, win)
         self.fileSelector.show()
