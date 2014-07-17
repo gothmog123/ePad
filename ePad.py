@@ -235,6 +235,7 @@ class Interface(object):
         sav_btt.text = "Yes"
         sav_btt.callback_clicked_add(self.saveFile)
         sav_btt.callback_clicked_add(self.closePopup, self.confirmPopup)
+        sav_btt.callback_clicked_add(self.closeApp)
         sav_btt.show()
         
         # add buttons to popup
