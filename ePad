@@ -235,6 +235,38 @@ class Interface(object):
         sav_btt.text = "Yes"
         sav_btt.callback_clicked_add(self.saveFile)
         sav_btt.callback_clicked_add(self.closePopup, self.confirmPopup)
+        sav_btt.show()
+        
+        # add buttons to popup
+        self.confirmPopup.part_content_set("button1", no_btt)
+        self.confirmPopup.part_content_set("button2", cancel_btt)
+        self.confirmPopup.part_content_set("button3", sav_btt)
+        self.confirmPopup.show()
+
+    def confirmSaveQuitting( self, ourCallback=None ):
+        self.confirmPopup = Popup(self.mainWindow, size_hint_weight=EXPAND_BOTH)
+        self.confirmPopup.part_text_set("title,text","File Unsaved")
+        if self.mainEn.file_get()[0]:
+            self.confirmPopup.text = "Save changes to '%s'?" % self.mainEn.file_get()[0].split("/")[len(self.mainEn.file_get()[0].split("/"))-1]
+        else:
+            self.confirmPopup.text = "Save changes to 'Untitlted'?"
+        # Close without saving button
+        no_btt = Button(self.mainWindow)
+        no_btt.text = "No"
+        no_btt.callback_clicked_add(self.closePopup, self.confirmPopup)
+        if ourCallback is not None:
+            no_btt.callback_clicked_add(ourCallback, True)
+        no_btt.show()
+        # cancel close request
+        cancel_btt = Button(self.mainWindow)
+        cancel_btt.text = "Cancel"
+        cancel_btt.callback_clicked_add(self.closePopup, self.confirmPopup)
+        cancel_btt.show()
+        # Save the file and then close button
+        sav_btt = Button(self.mainWindow)
+        sav_btt.text = "Yes"
+        sav_btt.callback_clicked_add(self.saveFile)
+        sav_btt.callback_clicked_add(self.closePopup, self.confirmPopup)
         sav_btt.callback_clicked_add(self.closeApp)
         sav_btt.show()
         
@@ -260,7 +292,7 @@ class Interface(object):
     def closeChecks( self, obj ):
         print(self.isSaved)
         if self.isSaved == False and self.confirmPopup == None:
-            self.confirmSave(self.closeApp)
+            self.confirmSaveQuitting(self.closeApp)
         else:
             self.closeApp()
 
